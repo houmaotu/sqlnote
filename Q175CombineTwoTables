@@ -1,0 +1,7 @@
+SELECT tb1.firstName as firstName,  tb1.lastName as lastName, tb2.city as city, tb2.state as state
+FROM Person as tb1
+LEFT JOIN Address as tb2
+ON tb1.personID = tb2.personId; 
+
+知识点：
+from的是join的之后的 on是条件，select 选出来了相应的行， left join是前面的都要，后面的和前面match的加上去

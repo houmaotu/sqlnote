@@ -1,0 +1,15 @@
+题目要求用delete
+# Write your MySQL query statement below
+DELETE ps1
+FROM Person as ps1, Person as ps2
+WHERE ps1.email = ps2.email AND ps1.id > ps2.id;
+
+
+还是条件的问题
+
+
+
+
+语法
+DELETE FROM
+WHERE

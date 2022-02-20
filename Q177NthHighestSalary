@@ -1,0 +1,15 @@
+CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+BEGIN
+DECLARE m INT;
+SET m = n-1;
+  RETURN (
+      # Write your MySQL query statement below.
+      SELECT DISTINCT salary as SecondHighestSalary
+      FROM Employee
+      GROUP BY Salary
+      ORDER BY Salary DESC
+      LIMIT 1 OFFSET m
+  );
+END
+
+limit 1 offset m, 跳过m个选一个 为了避免重复 要么groupby去重，要么distinct 注意mysql比较愚蠢不能用n-1

@@ -1,0 +1,20 @@
+# Write your MySQL query statement below
+SELECT tb1.Score AS Score, (SELECT COUNT(DISTINCT tb2.Score)
+                         FROM Scores AS tb2
+                         WHERE tb2.Score > tb1.Score) + 1 AS 'Rank'
+FROM Scores AS tb1
+ORDER BY tb1.Score DESC;
+
+知识点： 首先desc升序 其次就是rank 复制一份1 count distince多少比它小的就可以了
+
+
+FUNCTION() OVER(PARTITION BY x ORDER BY y ASC/DESC)
+classifited by x, ordered by y
+常用的 RANK    ROW_NUMBER    DENSE_RANK
+      12245     12345        12234
+
+
+SELECT score, 
+       DENSE_RANK() OVER(ORDER BY score desc) AS `rank` 
+FROM scores
+ORDER BY `rank`

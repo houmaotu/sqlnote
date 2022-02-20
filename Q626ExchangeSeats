@@ -1,0 +1,8 @@
+# Write your MySQL query statement below
+SELECT (CASE 
+        WHEN MOD(id,2) = 1 AND id = counts THEN id
+        WHEN MOD(id,2) = 1 AND id != counts THEN id + 1
+        ELSE id - 1
+       END) as id, Student
+FROM Seat as tb1, (SELECT count(*) as counts FROM Seat) as counts
+ORDER BY id;

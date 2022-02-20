@@ -1,0 +1,7 @@
+# Write your MySQL query statement below
+SELECT max(salary) as SecondHighestSalary
+FROM Employee
+WHERE salary < (SELECT max(salary)
+                FROM Employee);
+                
+where 条件 选出此高的就是在 去掉最高的之后 最高的

@@ -1,0 +1,14 @@
+# Write your MySQL query statement below
+SELECT distinct(tb1.num) as ConsecutiveNums
+FROM logs as tb1, logs as tb2, logs as tb3
+WHERE tb1.Id + 1= tb2.Id AND tb2.Id +1 = tb3.Id AND tb1.num=tb2.num AND tb3.num=tb2.num;
+
+复制好三分 id依次+1, num相等
+
+SELECT DISTINCT
+  a.num AS ConsecutiveNums
+FROM
+  Logs a
+  JOIN Logs b ON b.id - a.id = 1 AND a.num = b.num
+  JOIN Logs c ON c.id - b.id = 1 AND b.num = c.num;
+  这是self join

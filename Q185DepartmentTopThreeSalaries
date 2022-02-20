@@ -1,0 +1,10 @@
+# Write your MySQL query statement below
+SELECT tb2.name as Department, tb1.name as Employee, tb1.salary as Salary
+FROM Employee as tb1
+INNER JOIN Department as tb2
+ON tb1.departmentId  = tb2.id
+WHERE (SELECT count(DISTINCT Salary)
+       FROM Employee as tb3
+      WHERE tb3.departmentId = tb1.departmentId AND tb3.Salary>tb1.salary ) < 3
+      
+前面的join on 条件就是 salary比他小的少于三个

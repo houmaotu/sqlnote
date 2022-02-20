@@ -1,0 +1,29 @@
+# Write your MySQL query statement below
+SELECT tb1.request_at as Day, (ROUND(AVG(CASE WHEN tb1.status = 'completed' THEN 0
+                               ELSE 1
+                               END),2)) as 'Cancellation Rate'
+FROM trips as tb1
+INNER JOIN Users as tb2
+ON tb1.client_id  = tb2.users_id AND tb2.banned = "NO"
+INNER JOIN Users as tb3
+ON tb1.driver_id  = tb3.users_id AND tb3.banned = "NO"
+WHERE tb1.request_at BETWEEN "2013-10-01" AND "2013-10-03"
+GROUP BY tb1.request_at
+ORDER BY Day
+
+
+
+
+
+语法
+CASE
+WHEN c1 THEN r1
+WHEN c2 THEN r2
+ELSE r
+END
+
+1 处理banned inner join一个 id match and not banned
+2 where 了时间条件
+3 按照时间grp
+4 处理rate 用case when else的 avg开计算  也可以SUM(...)/COUNT(*)
+5 最终 order

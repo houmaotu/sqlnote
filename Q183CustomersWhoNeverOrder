@@ -1,0 +1,8 @@
+# Write your MySQL query statement below
+SELECT tb1.Name as Customers 
+FROM Customers as tb1
+LEFT JOIN Orders AS tb2
+ON tb1.id = tb2.customerId
+WHERE tb2.customerId  is NULL;
+
+left join最为id和c id的match 然后选出来没有的c id的

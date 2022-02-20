@@ -1,0 +1,12 @@
+题目要求选择中位数
+SELECT tb1.Student_id,tb1.Group, tb1.Earnde_Points
+FROM student as tb1
+LEFT JOIN student as tb2
+ON tb1.Group = tb2.Group
+GROUP BY tb1.Group,tb2.Earned_Points
+HAVING SUM(CASE WHEN tb1.Earnde_Points = tb2.Earnde_Points THEN 1  出现频率
+                ELSE 0
+           END
+        ) >=
+        ABS(SUM(SIGN(tb1.Earnde_Points - tb2.Earnde_Points)))  比他大的和小的的个数的差 
+ORDER BY tb1.Student_id

@@ -87,13 +87,13 @@ SELECT - extracts data from a database
         SELECT 'Supplier', ContactName, City, Country
         FROM Suppliers;
         
-        groupby  ( MAX(), MIN(), SUM(), AVG()) show the first one if no op
+       by  ( MAX(), MIN(), SUM(), AVG()) show the first one if no op
         SELECT COUNT(CustomerID), Country
         FROM Customers
         GROUP BY Country
         ORDER BY COUNT(CustomerID) DESC;
         
-        having since where can use on functions
+        having since where cant use on functions
         SELECT COUNT(CustomerID), Country
         FROM Customers
         GROUP BY Country
@@ -168,12 +168,134 @@ INSERT INTO - inserts new data into a database
               INSERT INTO Customers (CustomerName, City, Country)
               SELECT SupplierName, City, Country FROM Suppliers;
 CREATE DATABASE - creates a new database
+              CREATE DATABASE testDB;
+              DROP DATABASE testDB;
+              
+              back up w or wo change
+              BACKUP DATABASE testDB
+              TO DISK = 'D:\backups\testDB.bak'
+              WITH DIFFERENTIAL;
 ALTER DATABASE - modifies a database
 CREATE TABLE - creates a new table
+
+             CREATE TABLE Persons (
+             PersonID int,
+             LastName varchar(255),
+             FirstName varchar(255),
+             Address varchar(255),
+             City varchar(255)
+             );
+             
+             use creat as to creatle tab from tab
+             CREATE TABLE TestTable AS
+             SELECT customername, contactname
+             FROM customers;
+             
+             creat with constraint
+             CREATE TABLE table_name (
+           column1 datatype constraint,
+            column2 datatype constraint,
+             column3 datatype constraint,
+               ....
+              );
+             NOT NULL - Ensures that a column cannot have a NULL value
+             UNIQUE - Ensures that all values in a column are different
+             PRIMARY KEY - A combination of a NOT NULL and UNIQUE. Uniquely identifies each row in a table
+             FOREIGN KEY - Prevents actions that would destroy links between tables
+                             he table with the foreign key is called the child table, and the table with the primary key is called the referenced or p
+             CHECK - Ensures that the values in a column satisfies a specific condition
+             DEFAULT - Sets a default value for a column if no value is specified
+             CREATE INDEX - Used to create and retrieve data from the database very quickly
+             
+            CREATE TABLE Persons (
+            ID int NOT NULL,
+            LastName varchar(255) NOT NULL,
+             FirstName varchar(255),
+            Age int,
+            PRIMARY KEY (ID)
+             );
+             
+            
+           CREATE TABLE Orders (
+           OrderID int NOT NULL,
+           OrderNumber int NOT NULL,
+           PersonID int,
+           PRIMARY KEY (OrderID),
+           CONSTRAINT FK_PersonOrder FOREIGN KEY (PersonID)
+           REFERENCES Persons(PersonID)
+           );
+           
+           CREATE TABLE Persons (
+            ID int NOT NULL,
+            LastName varchar(255) NOT NULL,
+            FirstName varchar(255),
+            Age int,
+            City varchar(255),
+            CONSTRAINT CHK_Person CHECK (Age>=18 AND City='Sandnes')
+           );
+           
+              CREATE TABLE Orders (
+              ID int NOT NULL,
+             OrderNumber int NOT NULL,
+              OrderDate date DEFAULT GETDATE()   --or fixed val
+                );
+                
+               #may or maynot be unnique
+             CREATE UNIQUE INDEX index_name
+             ON table_name (column1, column2, ...);
+             
+             CREATE TABLE Persons (
+               Personid int NOT NULL AUTO_INCREMENT,
+               LastName varchar(255) NOT NULL,
+                FirstName varchar(255),
+                 Age int,
+            PRIMARY KEY (Personid)
+             );
 ALTER TABLE - modifies a table
+
+              ALTER TABLE Customers
+              ADD Email varchar(255);
+              DROP COLUMN Email;
+              ALTER COLUMN DateOfBirth year;    (some use MODIFY COLUMN)
+              
+              ALTER TABLE Persons
+              MODIFY Age int NOT NULL;
+              
+              ALTER TABLE Persons
+              ADD UNIQUE (ID)
+              
+              ALTER TABLE Persons
+              ADD PRIMARY KEY (ID);
+              
+              ALTER TABLE Orders
+              ADD CONSTRAINT FK_PersonOrder
+              FOREIGN KEY (PersonID) REFERENCES Persons(PersonID);
+              
+              ALTER TABLE Orders
+              DROP CONSTRAINT FK_PersonOrder;
+              
+              ALTER TABLE Persons
+              ADD CONSTRAINT CHK_PersonAge CHECK (Age>=18 AND City='Sandnes');
+              
+              ALTER TABLE Persons
+            ADD CONSTRAINT df_City
+            DEFAULT 'Sandnes' FOR City;
+             
+             ALTER TABLE Persons AUTO_INCREMENT=100;
 DROP TABLE - deletes a table
+            DROP TABLE Shippers;
+            
+            ALTER TABLE table_name
+            DROP INDEX index_name;
 CREATE INDEX - creates an index (search key)
 DROP INDEX - deletes an index
 
 
 comments -- */ /*
+
+CREATE VIEW [Brazil Customers] AS
+SELECT CustomerName, ContactName
+FROM Customers
+WHERE Country = 'Brazil';
+
+

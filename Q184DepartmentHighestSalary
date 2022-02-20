@@ -1,0 +1,10 @@
+# Write your MySQL query statement below
+SELECT tb2.name as Department, tb1.name as Employee , tb1.salary as Salary
+FROM Employee as tb1
+LEFT JOIN Department  as tb2
+ON tb1.departmentId = tb2.Id
+WHERE (tb2.id,tb1.Salary) IN (SELECT departmentId, max(salary)
+                            FROM Employee
+                           GROUP BY departmentId);
+                           
+ join的条件用in跳出来salary就是最大的  最大的用max groupby实现

@@ -6,3 +6,5 @@ SELECT (CASE
        END) as id, Student
 FROM Seat as tb1, (SELECT count(*) as counts FROM Seat) as counts
 ORDER BY id;
+
+注意一下edge case 最后一个 用case

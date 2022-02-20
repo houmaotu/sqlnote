@@ -1,0 +1,7 @@
+# Write your MySQL query statement below
+update salary 
+set sex = IF (sex = "m", "f", "m");
+
+update set
+后面if (类似于r的ifelse)
+也可以case

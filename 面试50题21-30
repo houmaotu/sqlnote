@@ -52,3 +52,37 @@ inner join student as st on sc_s_id = st.s_id
 where m <= 3
 ) as tb
 group by c_id
+
+题 26 每门课程被选修的学生数字
+select s.c_id, c.c_name count(distinct s_id)
+from score as s
+inner join course as c on s.c_id = c.c_id
+group by s.c_id
+
+题27
+只有两门课程的全部学生的学号和姓名
+select * from students
+where s_id in
+(
+select s_id
+from score
+group by s_id
+having count(distince c_id) = 2
+)
+
+也可以
+select st.* from students as st
+inner join score as sc on sc.s_id = st.s_id
+group by sc.s_id
+having count(distince sc.c_id) = 2
+
+题28 查询男生、女生人数
+select s_sex,count(distinct s_id)
+from student
+group by s_sex
+
+题29 名字中含有"兔"字的学生信息
+select * from student
+where s_name like '%tu%'
+
+题30 缺失

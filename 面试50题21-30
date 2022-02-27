@@ -1,0 +1,44 @@
+ 数据
+ –1.学生表
+
+Student(s_id,s_name,s_birth,s_sex) –学生编号,学生姓名, 出生年月,学生性别
+
+–2.课程表
+
+Course(c_id,c_name,t_id) – –课程编号, 课程名称, 教师编号
+
+–3.教师表
+
+Teacher(t_id,t_name) –教师编号,教师姓名
+
+–4.成绩表
+
+Score(s_id,c_id,s_score) –学生编号,课程编号,分数
+
+题21 不同老师所教不同课程平均分从高到低显示
+
+比较诡异 但是就是grp by
+select c.c_id,c.c_name,avg(sc.s_score) as avgs
+from score as sc
+inner join course as c on sc.c_id = c.c_id
+group by c_c_id
+order by avgs desc
+
+题22 所有课程的成绩第2名到第3名的学生信息及该课程成绩（
+select rank() over(partition by sc.c_id order by sc.s_score desc) as m
+from score as sc
+inner join student as st on sc_s_id = st.s_id
+where m = 2 or m = 3
+
+题23 使用分段[100-85],[85-70],[70-60],[<60]来统计各科成绩，分别统计各分数段人 课程ID和课程名称
+注意用count的话NULL 不算 0也算
+select *,sum(case when s_score between 100 and 85 then 1 else 0 end) as good
+from score as sc
+inner join course as c on s.s_id = sc.s_id
+group by c_id
+
+题24 学生平均成绩及其名次
+select *, row_number () over (order by avg(s_score) decs)
+from score 
+group by s_id
+

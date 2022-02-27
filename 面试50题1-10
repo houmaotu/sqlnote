@@ -55,3 +55,92 @@ from teacher
 where t_name like "hou%"
 
 题5 查询没学过厚毛兔的课程
+
+法1一段一段查询
+select * from student
+where s_id not in (
+select s_id from score
+where c_id = (
+select c_id from courses 
+where t_id = (select t_id from teacher
+where t_name = 'Houmaotu'
+)
+)
+)
+
+法2 连起来
+select * from students
+where s_id not in(
+select s_id from score as s
+inner join course as c on s.c_id = c.c_id
+inner join teacher as t on c_t_id = b.t_id
+where t.t_name = 'houmaotu'
+)
+
+题6 学过厚毛兔的课的人
+select st.*,s.*,t.* 
+from student as st
+inner join score as s on s.s_id = at.a_id
+inner join course as c on s.c_id = c.c_id
+inner join teacher as t on t,t_id = c.t_id
+where t.t_name = 'houmaotu'
+order by s.s_id
+
+题7 学过1也学过2
+select * from student
+where s_id in
+(
+select a.s_id from
+(select s_id from score where c_id = '01') as a
+inner join (select s_id from score where c_id = '02') as b
+on a.s_id = b.s_id
+)
+
+题8 课程2的总成绩
+select sum(s_score) from score
+where s_id = '02'
+
+也可以group by having
+
+题9 所有课程都<60
+
+课程数 = 小于60 课程数
+select *
+from
+(select s_id,count(c_id) as cnt from score
+where s_score<60
+group by s_id
+) as a
+inner join 
+(select s_id,count(c_id) as cnt from score
+group by s_id
+) as b
+on a.s_id = b.s_id
+inner join student as t on s.s_id = t.s_id
+where a=cnt = b.cnt
+
+max<60
+select * from
+(select s_id from score
+group by s_id
+having max(s_score) < 60
+)
+inner join student
+
+题10 没学全所有课
+学生表格 和 没学全的了left join
+select * 
+from student as st
+left join score as s on st.s_id = sc.s_id
+group by st.s_id
+having count(distince sc.c_id) < (select count(distinct c_id) from course)
+
+学生id not in学全了
+select *
+from student as st
+where s_id not in 
+(
+select s_id from score
+group by s_id
+having count(distince s_id) = (select count(distinct c_id) from course)
+)

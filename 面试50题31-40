@@ -1,0 +1,91 @@
+ 数据
+ –1.学生表
+
+Student(s_id,s_name,s_birth,s_sex) –学生编号,学生姓名, 出生年月,学生性别
+
+–2.课程表
+
+Course(c_id,c_name,t_id) – –课程编号, 课程名称, 教师编号
+
+–3.教师表
+
+Teacher(t_id,t_name) –教师编号,教师姓名
+
+–4.成绩表
+
+Score(s_id,c_id,s_score) –学生编号,课程编号,分数
+
+题31
+查询1990年出生的学生名单
+select * from students
+where year(s_birth) = 1990
+
+注意取时间curdate curtime now week() year hour minute monthname datediff
+
+题32 查询平均成绩大于等于85的所有学生的学号、姓名和平均成绩
+select *,avg(sc.s_score) as avgscore
+student as st
+inner join score as sc on st.s_id = sc.s_id
+group by sc.s_id
+having avgscore >= 85
+
+题目33 每门课程的平均成绩，结果按平均成绩升序排序，平均成绩相同时，按课程号降序排列
+select c_id, avg(s_score) as avg_score from score
+group by (c_id)
+order by avg_score,c_id desc 
+
+题34 查询课程名称为"数学"，且分数低于60的学生姓名和分数
+select *
+from student as at
+iner join score as sc on ...
+inner join course as c on ...
+where c.c_name = ... and sc.score <60
+
+题35 查询所有学生的课程及分数情况
+
+select st.s_id,st.s_name,
+max(case when c.c_name = SHUXUE then s.score else null end) as shuxue,
+...
+from score as s
+inner join course as c on ...
+inner join sdudent as st on ...
+from score from
+group by st.s_id,st.s_name
+
+题36 查询任何一门课程成绩在70分以上的姓名、课程名称和分数
+select *
+from student as st
+inner join course  as c on ...
+inner join score as sc on ...
+where c.c_score > 70
+
+题37 查询不及格的课程并按课程号从大到小排列
+select *
+from stundet as st
+inner join score as sc on ...
+inner join course as c on ...
+where c.s_score < 60
+order by c.c_id desc
+
+题38 查询课程编号为03且课程成绩在80分以上的学生的学号和姓名
+select *
+from student  as st
+inner join score as sc on ...
+inner join course as c on ...
+where sc.c_id = '03' and sc.c_score >= 80
+
+
+题39  每门课程的学生人数
+select c_is,count(distinct c_id) as snt
+from course
+group by c_id
+
+题40 查询选修“兔兔”老师所授课程的学生中成绩最高的学生姓名及其成绩
+
+select *
+from score as s
+inner join course as c on ...
+inner join teacher as t on ...
+inner join student as st on ...
+where t.t_name = 'tutu'
+order by s.s_score desc limit 0, 1

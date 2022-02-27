@@ -103,16 +103,42 @@ where sc.c_id = '01' and sc.s_score<60
 order by sc.s_score desc  (注意升序士asc 默认)
 
 题17 按平均成绩高到低 显示学生的成绩 平均成绩
-
-select a.*, b.avgs from score as a
+科目一列 成绩一列
+select a.*, b.avgs,from score as a
 inner join
 (
 select s_id, avg（s_score）as avgs,
-max(case when b.c_id = '01' then b.s_score else null end) as '01s',
-max(case when b.c_id = '02' then b.s_score else null end) as '02s'
 from score
 group by s_id
 ）as b
 on a.s_id = b.s_id
 order by b.avgs desc
 
+一科一列
+select s_id, avg（s_score）as avgs,
+max(case when c_id = '01' then s_score else null end) as '01s',
+max(case when c_id = '02' then s_score else null end) as '02s'
+from score
+group by s_id
+order by b.avgs desc
+
+题18 各科目的最高分，最低分，平均分，及格率，中等率，优良率，优秀率
+    及格为>=60，中等为：70-80，优良为：80-90，优秀为：>=90 (超级重点)
+    
+select s.c_id,
+max(s.s_socre)，
+avg(case when s_score between 80 and 90 then 1 else 0)
+from score as a
+inner join course as c on s.c_id = c.c_id
+group by c_id
+
+题19 按各科成绩进行排序，并显示排名 （注意 row_number rank dense_rank
+select *, row_number() over (order by s_score desc)
+from score
+
+题目20 总成绩并进行排名
+selecy s_id, sum(s_score) as tot_score
+from score
+group by s_id
+order by tot_score desc
+    

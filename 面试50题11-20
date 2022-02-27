@@ -43,11 +43,11 @@ from score as s
 group by s_id
 having 
 count(
-case when t_id in 
+when t_id in 
 (select t_id
 from score
 where s_id = '01'
-) 1 else 0 end
+) then 1 else 0 end
 ) = 
 select count(t_id)
 from score
@@ -69,7 +69,7 @@ select c_id from score where s_id = '01'
 )
 )
 
-题目13 没学过兔兔任意一门课的学生 同5
+题13 没学过兔兔任意一门课的学生 同5
 select * from student
 where s_id not in
 (select s_id from score as s
@@ -78,6 +78,41 @@ inner join teacher as t on c.t_id = c.t_id
 where t.t_name = 'tutu'
 )
 
-题目14 缺失
+题14 缺失
 
-题目14
+题15
+两门以上不及格学生的平均成绩
+select st.s_id,st.s_name,avg(s_score)
+from student as st
+inner join score as sc on st.c_id = s.c_id
+
+where s_id in(
+select s_id
+from score 
+where s_score<60
+group by s_id having count(distince c_id) >= 2
+)
+
+group by st.s_id,st.s_name
+
+题16 01课<60 降序排列
+select st.*, sc.*
+from student as st
+inner join score as sc on st.s_id = sc.s_id
+where sc.c_id = '01' and sc.s_score<60
+order by sc.s_score desc  (注意升序士asc 默认)
+
+题17 按平均成绩高到低 显示学生的成绩 平均成绩
+
+select a.*, b.avgs from score as a
+inner join
+(
+select s_id, avg（s_score）as avgs,
+max(case when b.c_id = '01' then b.s_score else null end) as '01s',
+max(case when b.c_id = '02' then b.s_score else null end) as '02s'
+from score
+group by s_id
+）as b
+on a.s_id = b.s_id
+order by b.avgs desc
+

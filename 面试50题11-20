@@ -1,0 +1,83 @@
+ –1.学生表
+
+Student(s_id,s_name,s_birth,s_sex) –学生编号,学生姓名, 出生年月,学生性别
+
+–2.课程表
+
+Course(c_id,c_name,t_id) – –课程编号, 课程名称, 教师编号
+
+–3.教师表
+
+Teacher(t_id,t_name) –教师编号,教师姓名
+
+–4.成绩表
+
+Score(s_id,c_id,s_score) –学生编号,课程编号,分数
+
+题11 至少一门课和01相同的学生
+法1sub q
+select * from student
+where s_id in
+(
+select distinct s_id
+from score as s
+where s.c_id in
+(from c_id from score
+where s_id = '01')
+)
+
+法2inner join
+select * from student
+inner join(
+select distinct s_id
+from score as s
+where s.c_id in
+(from c_id from score
+where s_id = '01')
+)
+
+题12 所有课与01相同的学生
+兔兔 (忽略了修的课更多的人 呜呜呜)
+select distinct s_id
+from score as s
+group by s_id
+having 
+count(
+case when t_id in 
+(select t_id
+from score
+where s_id = '01'
+) 1 else 0 end
+) = 
+select count(t_id)
+from score
+where s_id = '01'
+门数（01子集）一样 + 门数一样 （兔兔忘了）
+视频
+select student from student
+where s_id in(
+select s_id from score
+where 's_id' != '01'
+group by s_id
+having count(distinct c_id) = (select count distinct c_id from score where s_id = '01')
+) 门数一样
+and s_id not in(  没上过1没上过的
+select distinct s_id from score
+where c_id not in
+(
+select c_id from score where s_id = '01'
+)
+)
+
+题目13 没学过兔兔任意一门课的学生 同5
+select * from student
+where s_id not in
+(select s_id from score as s
+inner join course as c on s_c_id = c.c_id
+inner join teacher as t on c.t_id = c.t_id
+where t.t_name = 'tutu'
+)
+
+题目14 缺失
+
+题目14

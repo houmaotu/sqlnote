@@ -1,0 +1,57 @@
+ 数据
+ –1.学生表
+
+Student(s_id,s_name,s_birth,s_sex) –学生编号,学生姓名, 出生年月,学生性别
+
+–2.课程表
+
+Course(c_id,c_name,t_id) – –课程编号, 课程名称, 教师编号
+
+–3.教师表
+
+Teacher(t_id,t_name) –教师编号,教师姓名
+
+–4.成绩表
+
+Score(s_id,c_id,s_score) –学生编号,课程编号,分数
+
+题1 01课程比02课程分数高的学生
+
+select a.s_id, c.s_name,a.s_score,b.s_score
+from(
+select s_id,c_id,s_score
+from score
+where
+c_id = '01'
+) as a
+inner join
+from(
+select s_id,c_id,s_score
+from score
+where
+c_id = '01'
+) as b
+on a.s_id = b.s_id
+inner join student as c
+on c_s_id = a.s_id
+where a.s_score > b.score
+
+题2 平均分>60的学号 平均成绩
+select s_id,avg(s_score) as avgs
+from score
+group by s_id
+having avgs>60
+
+题3 所有学生的学号 姓名 选课数 总成绩
+select a.s_id,count(b.c_id),sum(b.s_score)
+from student as a
+left join score as b 
+on a.s_id = b.s_id
+group by a.s_id
+
+题4 查询姓侯的老师的个数
+select ct(t_id)
+from teacher 
+where t_name like "hou%"
+
+题5 查询没学过厚毛兔的课程

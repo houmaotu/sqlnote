@@ -2,6 +2,8 @@ https://zhuanlan.zhihu.com/p/43289968 SQL面试必会50题 #主要
  https://zhuanlan.zhihu.com/p/38354000 经典50题
  https://www.bilibili.com/video/BV1q4411G7Lw 视频
  
+强调一下次序 FROM -> (ON JOIN)-> WHERE -> GROUP BY ->WITH -> HAVING -> SELECT (DISTINCT) ->ORDER BY
+ 
  重点题目 1 5
  
  数据

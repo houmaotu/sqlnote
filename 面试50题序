@@ -1,0 +1,21 @@
+https://zhuanlan.zhihu.com/p/43289968 SQL面试必会50题 #主要
+ https://zhuanlan.zhihu.com/p/38354000 经典50题
+ https://www.bilibili.com/video/BV1q4411G7Lw 视频
+ 
+ 数据
+ –1.学生表
+
+Student(s_id,s_name,s_birth,s_sex) –学生编号,学生姓名, 出生年月,学生性别
+
+–2.课程表
+
+Course(c_id,c_name,t_id) – –课程编号, 课程名称, 教师编号
+
+–3.教师表
+
+Teacher(t_id,t_name) –教师编号,教师姓名
+
+–4.成绩表
+
+Score(s_id,c_id,s_score) –学生编号,课程编号,分数
+

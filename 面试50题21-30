@@ -42,3 +42,13 @@ select *, row_number () over (order by avg(s_score) decs)
 from score 
 group by s_id
 
+题25 所有课程的成绩前三的学生信息及该课程成绩
+select tb.c_id，
+max(case when m = 1 then tb.s_score else null) as first
+from(
+select *,rank() over(partition by sc.c_id order by sc.s_score desc) as m
+from score as sc
+inner join student as st on sc_s_id = st.s_id
+where m <= 3
+) as tb
+group by c_id

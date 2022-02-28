@@ -1,0 +1,65 @@
+https://www.youtube.com/watch?v=aoO_JbYLz1U  
+12:46 比较模糊这个
+select date(t.timestamp) as date ,avg(t.sales) as 
+from custumer as c
+inner join transaction as t on c.transaction = t.transaction
+where datediff(curdate(),t.timestamp) < 4
+order by ... 
+
+https://www.youtube.com/watch?v=yliRaLGzBfI
+1:17 calculatr corelation coefficient
+-- cov (x1-x1bar) * (x2_x2bar) . sqrt((x1-x1bar)^2) sqrt((x2-x2bar)^2)
+
+with mean as(
+select x1,x2,avg(x1) over() as x1bar, avg(x2) over() as x2bar
+from table
+),
+variance as (
+select avg(power(x1-x1bar,2)) as var_x1, avg(power(x2-x2bar,2)) as var_x2, avg((x1-x1bar)*(x2-x2bar)) as cov
+from mean
+),
+select cov / avg(power(var_x1 * var_x2 ,1/2))
+from variance
+
+https://www.youtube.com/watch?v=4MWOXXLxSb4
+12:54
+select count(distinct user_id)
+from usage
+where user_id not in(
+select distinct user_id
+from usage
+where activity in ('read',..) and timestamp between now()- 6 days and now()
+)
+
+https://www.youtube.com/watch?v=_sSjBp9WES4 
+4:07
+with temp as (select count( UID) as total from user where reactions is not null)
+select Date,sctivity, count(UID), count(UID)/ temp.total
+from user,temp
+group by Date,sctivity
+
+12:01
+with temp as (
+select UID, count(case when reactions = emoji then 1 else 0) as ctemo, count(case when reactions = like then 1 else 0) as ctlike
+from post
+where data between now() - 7 day and now()
+group by UID,
+)
+select count(UID) from temp where ctemo> ctlike
+
+
+https://www.youtube.com/watch?v=XOJk0AKIqv8&t=993s
+9:50
+with temp as(
+select * from message_sent/message_reveived as ratio, row_number() over (partition by date order by isnull(ratio),ratio desc) as m
+form mesages
+where message_sent is not null and message_reveived is not null
+)
+select distinct user_name from temp
+where m = 1
+
+17:58
+select user_name, min(date)
+from messages
+where message_recieved = 0
+group by user_name

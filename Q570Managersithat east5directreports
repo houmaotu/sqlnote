@@ -1,0 +1,11 @@
+自己join自己就行了
+
+select 
+    a.name 
+from 
+    employee a 
+inner join 
+    employee b 
+on (a.id = b.managerid) 
+group by a.name 
+having count(distinct b.id) >= 5

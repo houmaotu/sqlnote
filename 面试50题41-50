@@ -15,4 +15,89 @@ Teacher(t_id,t_name) –教师编号,教师姓名
 
 Score(s_id,c_id,s_score) –学生编号,课程编号,分数
 
-题41
+题41 查询不同课程成绩相同的学生的学生编号、课程编号、学生成绩
+所有课程成绩相同
+select s_id
+from
+(
+select from s_id, s_ score from score
+group by s_id,s_score
+) as a
+group by s_id having count(s_id) = 1
+
+grp不仅仅可以是id 也可以是 ct
+
+inner join这个 排除就一门课的
+select
+from score
+group by s_id
+having count(disinct c_id) > 1
+
+题42 查询每门功成绩最好的前两名
+select *, row_number() over (partition by c_id) as m
+from score
+where m <= 2
+
+题43 统计每门课程的学生选修人数（超过5人的课程才统计）。要求输出课程号和选修人数，查询结果按人数降序排列，若人数相同，按课程号升序排列
+select c_id, count( distinces_id) as cnt
+from score
+group by s_id
+having cnt>5
+order by s_id decs, c_id 
+
+题44 至少选修两门课程的学生学号
+select s_id
+from score
+group by s_id
+having count(distince c_id) > 2
+
+题45 查询选所有课的学生信息
+select * from student
+where s_in in
+（
+select s_id from score
+group by s_id
+having count( distince c_id) = 
+(
+select count( distince c_id) from score
+)
+）
+
+题46 学生年龄
+select *,
+round(datediff(curdate(),s_birth)/365)
+from stundet
+
+也可以floor
+
+题47 查询没学“兔兔”老师讲授的任一门课程的学生姓名
+select s_id,s_name
+from stundent
+where s_id not in
+(
+select s_id
+from course as ...
+inner join score as ... on ..
+inner join teacher as  .. on ..
+where t.t_name = '兔兔'
+)
+
+题48 查询两门以上不及格课程的同学的学号及其平均成绩 (???)
+select s_id, avg(s_score)
+from score
+group by s_id 
+having sum(case when s_score <60 the 1 else 0 end) >= 2
+
+妈蛋蛋 序号乱了
+本月过生日
+select * from student
+where month(s_birth) = month(now())
+
+下周过生日 注意不能直接看week数字 换到同年
+           还tm有年末的事
+select * from student
+where week(concat(‘2022-’，substring(s_birth,6,5),)) = week(curdate()) + 1
+
+下个月过生日
+select * from student
+where month(s_birth) = mod((month(now()),12)
